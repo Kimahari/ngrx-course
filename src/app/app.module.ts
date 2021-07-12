@@ -23,6 +23,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { metaReducers, reducers } from './reducers';
 import { AuthGuard } from './auth/auth.guard';
 import { EntityDataModule } from '@ngrx/data';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 const routes: Routes = [
@@ -69,6 +70,12 @@ const routes: Routes = [
     StoreRouterConnectingModule.forRoot({
       stateKey: 'router',
       routerState: RouterState.Minimal
+    }),
+    ServiceWorkerModule.register('./ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
     })
   ],
   bootstrap: [AppComponent]
